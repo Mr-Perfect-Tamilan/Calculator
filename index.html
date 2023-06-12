@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Calculator</title>
+    <style>
+        body {
+            padding: 0;
+            margin: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            user-select: none;
+            background-image: linear-gradient( to bottom right, rgba(79,51,176,1.0),rgba(210,53,164));
+        }
+        .container {
+            margin-left: 1.8em;
+            padding: 20px;
+            border-radius: 8px;
+            background-color: #2b2b2b;
+            box-shadow: 13px 13px 20px #28202880,
+                -13px -13px 20px #28202880;
+        }
+        .content {
+            width: 100%;
+            margin-top: 1.7em;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+        }
+        .row button {
+            width: 60px;
+            height: 30px;
+            font-size: 16px;
+            border: none;
+            outline: none;
+            margin: 5px;
+            border-radius: 4px;
+            transition: .1s;
+            box-shadow: 5px 5px 8px #00000020,
+                -5px -5px 8px #282028;
+        }
+        #operators{
+            background-color: #ffbbf9;
+            color: #f555f0;
+        }
+        #operators:hover{
+            box-shadow: inset 5px 5px 8px #ff8ff8,
+                inset -5px -5px 8px #ff8ff8;
+            opacity: 0.96;
+        }
+        #numbers{
+            background-color: #c3eeff;
+            color: #000000;
+        }
+        #numbers:hover{
+            box-shadow: inset 5px 5px 8px #8ee5ff,
+                inset -5px -5px 8px #8ee5ff;
+            opacity: 0.95;
+        }
+        #extra{
+            background-color: #bb58bb;
+        }
+        #extra:hover{
+            box-shadow: inset 5px 5px 8px #bb30bb,
+                inset -5px -5px 8px #bb30bb;
+            opacity: 0.95;
+        }
+        .display #screen {
+            margin-bottom: .5em;
+            width: auto;
+            height: 70px;
+            font-size: 35px;
+            outline: none;
+            border: none;
+            text-align: right;
+            padding-right: .5em;
+            background: #ecf0f3;
+            border-radius: 6px;
+            box-shadow: inset 8px 8px 8px #cbced1,
+                inset -8px -8px 8px #ffffff;
+        }
+        #eval {
+            background: #33ccff;
+            color: #fff;
+            box-shadow: inset 5px 5px 8px #66d9ff,
+                inset -5px -5px 8px #00ace6;
+        }
+        #eval:hover {
+            box-shadow: inset 5px 5px 8px #00ace6,
+                inset -5px -5px 8px #00ace6;
+        }
+        #ac {
+            background: #33cc35;
+            color: #fff;
+        }
+        #ac:hover {
+            box-shadow: inset 5px 5px 8px #2eb82e,
+                inset -5px -5px 8px #33cc33;
+        }
+        #de {
+            background: #b000f0;
+            color: #fff;
+        }
+        #de:hover {
+            box-shadow: inset 5px 5px 8px #a400df,
+                inset -5px -5px 8px #a400df;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="display">
+            <input id="screen" type="text" placeholder="0">
+        </div>
+        <div class="btns">
+            <div class="row">
+                <button id="de" onclick="backspc()">DE</button>
+                <button id="extra" onclick="fact()">x!</button>
+                <button class="btn" id="operators">(</button>
+                <button class="btn" id="operators">)</button>
+                <button class="btn" id="operators"><b>%</b></button>
+                <button id="ac" onclick="screen.value=''">AC</button>
+            </div>
+            <div class="row">
+                <button id="extra" onclick="sin()">sin</button>
+                <button id="extra" onclick="pi()">π</button>
+                <button class="btn" id="numbers">7</button>
+                <button class="btn" id="numbers">8</button>
+                <button class="btn" id="numbers">9</button>
+                <button class="btn" id="operators"><b>÷</b></button>
+            </div>
+            <div class="row">
+                <button id="extra" onclick="cos()">cos</button>
+                <button id="extra" onclick="log()">log</button>
+                <button class="btn" id="numbers">4</button>
+                <button class="btn" id="numbers">5</button>
+                <button class="btn" id="numbers">6</button>
+                <button class="btn" id="operators">×</button>
+            </div>
+            <div class="row">
+                <button id="extra" onclick="tan()">tan</button>
+                <button id="extra" onclick="sqrt()">√</button>
+                <button class="btn" id="numbers">1</button>
+                <button class="btn" id="numbers">2</button>
+                <button class="btn" id="numbers">3</button>
+                <button class="btn" id="operators"><b>-</b></button>
+            </div>
+            <div class="row">
+                <button id="extra" onclick="e()">e</button>
+                <button id="extra" onclick="pow()">x <span style="position: relative; bottom: .4em; right: .1em;">y</span>
+                </button>
+                <button class="btn" id="numbers">0</button>
+                <button class="btn" id="numbers"><b>.</b></button>
+                <button id="eval" onclick="screen.value=eval(screen.value)">=</button>
+                <button class="btn" id="operators">+</button>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    var screen = document.querySelector('#screen');
+    var btn = document.querySelectorAll('.btn');
+    for (item of btn) {
+        item.addEventListener('click', (e) => {
+            btntext = e.target.innerText;
+            if (btntext == '×') {
+                btntext = '*';
+            }
+            if (btntext == '÷') {
+                btntext = '/';
+            }
+            screen.value += btntext;
+        });
+    }
+    function sin() {
+        screen.value = Math.sin(screen.value);
+    }
+    function cos() {
+        screen.value = Math.cos(screen.value);
+    }
+    function tan() {
+        screen.value = Math.tan(screen.value);
+    }
+    function pow() {
+        screen.value = Math.pow(screen.value, 2);
+    }
+    function sqrt() {
+        screen.value = Math.sqrt(screen.value, 2);
+    }
+    function log() {
+        screen.value = Math.log(screen.value);
+    }
+    function pi() {
+        screen.value = 3.14159265359;
+    }
+    function e() {
+        screen.value = 2.71828182846;
+    }
+    function fact() {
+        var i, num, f;
+        f = 1
+        num = screen.value;
+        for (i = 1; i <= num; i++) {
+            f = f * i;
+        }
+        i = i - 1;
+        screen.value = f;
+    }
+    function backspc() {
+        screen.value = screen.value.substr(0, screen.value.length - 1);
+    }
+</script>
+</html>
